@@ -1,62 +1,41 @@
-#include <stdio.h>
-#include <string.h>
+class Student:
+    def __init__(self, name, score):
+        self.name = name
+        self.score = score
 
-#define MAX_STUDENTS 10
-#define NAME_LENGTH 50
+class StudentManager:
+    def __init__(self):
+        self.students = []
 
-typedef struct {
-    char name[NAME_LENGTH];
-    int score;
-} Student;
+    def add_student(self, name, score):
+        if score < 0 or score > 100:
+            print(f"Invalid score for {name}. Must be 0-100.")
+            return
+        self.students.append(Student(name, score))
 
-// Function to add a student
-int addStudent(Student students[], int count, const char* name, int score) {
-    if (count >= MAX_STUDENTS) {
-        printf("Cannot add more students. Limit reached.\n");
-        return count;
-    }
-    if (score < 0 || score > 100) {
-        printf("Invalid score for %s. Must be 0-100.\n", name);
-        return count;
-    }
-    strncpy(students[count].name, name, NAME_LENGTH-1);
-    students[count].name[NAME_LENGTH-1] = '\0'; // Ensure null termination
-    students[count].score = score;
-    return count + 1;
-}
+    def calculate_average(self):
+        if not self.students:
+            return 0
+        total = sum(student.score for student in self.students)
+        return total / len(self.students)
 
-// Function to calculate average score
-double calculateAverage(Student students[], int count) {
-    if (count == 0) return 0.0;
+    def print_students(self):
+        print("Student List:")
+        for student in self.students:
+            print(f"- {student.name}: {student.score}")
 
-    int total = 0;
-    for (int i = 0; i < count; i++) {
-        total += students[i].score;
-    }
-    return (double)total / count;
-}
+def main():
+    manager = StudentManager()
+    manager.add_student("Alice", 85)
+    manager.add_student("Bob", 92)
+    manager.add_student("Charlie", 78)
+    manager.add_student("Dave", 105)  # Invalid score, will be ignored
 
-// Function to print all students
-void printStudents(Student students[], int count) {
-    printf("Student List:\n");
-    for (int i = 0; i < count; i++) {
-        printf("- %s: %d\n", students[i].name, students[i].score);
-    }
-}
+    manager.print_students()
+    average = manager.calculate_average()
+    print(f"Average score: {average:.2f}")
 
-int main() {
-    Student students[MAX_STUDENTS];
-    int count = 0;
+if __name__ == "__main__":
+    main()
 
-    count = addStudent(students, count, "Alice", 85);
-    count = addStudent(students, count, "Bob", 92);
-    count = addStudent(students, count, "Charlie", 78);
-    count = addStudent(students, count, "Dave", 105); // Invalid score, will be ignored
-
-    printStudents(students, count);
-
-    double average = calculateAverage(students, count);
-    printf("Average score: %.2f\n", average);
-
-    return 0;
 }

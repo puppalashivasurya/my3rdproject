@@ -1,67 +1,62 @@
-import java.util.ArrayList;
-import java.util.List;
+#include <stdio.h>
+#include <string.h>
 
-class Student {
-    private String name;
-    private int score;
+#define MAX_STUDENTS 10
+#define NAME_LENGTH 50
 
-    public Student(String name, int score) {
-        this.name = name;
-        this.score = score;
+typedef struct {
+    char name[NAME_LENGTH];
+    int score;
+} Student;
+
+// Function to add a student
+int addStudent(Student students[], int count, const char* name, int score) {
+    if (count >= MAX_STUDENTS) {
+        printf("Cannot add more students. Limit reached.\n");
+        return count;
     }
-
-    public String getName() {
-        return name;
+    if (score < 0 || score > 100) {
+        printf("Invalid score for %s. Must be 0-100.\n", name);
+        return count;
     }
+    strncpy(students[count].name, name, NAME_LENGTH-1);
+    students[count].name[NAME_LENGTH-1] = '\0'; // Ensure null termination
+    students[count].score = score;
+    return count + 1;
+}
 
-    public int getScore() {
-        return score;
+// Function to calculate average score
+double calculateAverage(Student students[], int count) {
+    if (count == 0) return 0.0;
+
+    int total = 0;
+    for (int i = 0; i < count; i++) {
+        total += students[i].score;
+    }
+    return (double)total / count;
+}
+
+// Function to print all students
+void printStudents(Student students[], int count) {
+    printf("Student List:\n");
+    for (int i = 0; i < count; i++) {
+        printf("- %s: %d\n", students[i].name, students[i].score);
     }
 }
 
-public class StudentManager {
+int main() {
+    Student students[MAX_STUDENTS];
+    int count = 0;
 
-    private List<Student> students = new ArrayList<>();
+    count = addStudent(students, count, "Alice", 85);
+    count = addStudent(students, count, "Bob", 92);
+    count = addStudent(students, count, "Charlie", 78);
+    count = addStudent(students, count, "Dave", 105); // Invalid score, will be ignored
 
-    // Add a student to the list
-    public void addStudent(String name, int score) {
-        if (score < 0 || score > 100) {
-            System.out.println("Invalid score for student " + name + ". Must be 0-100.");
-            return;
-        }
-        students.add(new Student(name, score));
-    }
+    printStudents(students, count);
 
-    // Calculate the average score
-    public double calculateAverage() {
-        if (students.isEmpty()) {
-            return 0;
-        }
-        int total = 0;
-        for (Student s : students) {
-            total += s.getScore();
-        }
-        return (double) total / students.size();
-    }
+    double average = calculateAverage(students, count);
+    printf("Average score: %.2f\n", average);
 
-    // Print all students
-    public void printStudents() {
-        System.out.println("Student List:");
-        for (Student s : students) {
-            System.out.println("- " + s.getName() + ": " + s.getScore());
-        }
-    }
-
-    public static void main(String[] args) {
-        StudentManager manager = new StudentManager();
-        manager.addStudent("Alice", 85);
-        manager.addStudent("Bob", 92);
-        manager.addStudent("Charlie", 78);
-        manager.addStudent("Dave", 105); // Invalid score, will be ignored
-
-        manager.printStudents();
-
-        double average = manager.calculateAverage();
-        System.out.println("Average score: " + average);
-    }
+    return 0;
 }

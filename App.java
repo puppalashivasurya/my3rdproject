@@ -1,43 +1,49 @@
-class Student:
-    def __init__(self, name, score):
-        self.name = name
-        self.score = score
+import java.util.ArrayList;
+import java.util.List;
 
-class StudentManager:
-    def __init__(self):
-        self.students = []
+class Student {
+    String name;  // Should be private
+    int score;
 
-    def add_student(self, name, score):
-        # Bug: score validation is incorrect
-        if score <= 0 or score > 100:  # Should allow 0 as a valid score
-            print(f"Invalid score for {name}. Must be 0-100.")
-            return
-        self.students.append(Student(name, score))
+    public Student(String name, int score) {
+        this.name = name;
+        this.score = score;
+    }
+}
 
-    def calculate_average(self):
-        # Bug: division by zero not properly handled
-        total = sum(student.score for student in self.students)
-        return total / len(self.students)  # Will crash if students list is empty
+public class StudentManager {
 
-    def print_students(self):
-        # Bug: potential typo in variable name
-        for studnt in self.students:  # Typo: 'studnt' instead of 'student'
-            print(f"- {studnt.name}: {studnt.score}")
+    private List<Student> students = new ArrayList<>();
 
-def main():
-    manager = StudentManager()
-    manager.add_student("Alice", 85)
-    manager.add_student("Bob", 92)
-    manager.add_student("Charlie", -5)  # Invalid score, not handled correctly
-    manager.add_student("Dave", 105)    # Invalid score
+    public void addStudent(String name, int score) {
+        // Bug: allows negative scores
+        if (score < 0 || score > 100) {
+            System.out.println("Invalid score for " + name);
+            return;
+        }
+        students.add(new Student(name, score));
+    }
 
-    manager.print_students()
+    public double calculateAverage() {
+        // Bug: division by zero if list is empty
+        int total = 0;
+        for (Student s : students) {
+            total += score; // Bug: should be s.score
+        }
+        return total / students.size();  // Will crash if students.size() == 0
+    }
 
-    # Bug: could crash if no valid students added
-    average = manager.calculate_average()
-    print(f"Average score: {average:.2f}")
+    public void printStudents() {
+        // Bug: typo in loop variable
+        for (Student st : students) {
+            System.out.println(st.name + ": " + st.score);
+        }
+    }
 
-if __name__ == "__main__":
-    main()
+    public static void main(String[] args) {
+        StudentManager manager = new StudentManager();
+        manager.addStudent("Alice", 85);
+        manager.addStudent("Bob", 92);
+        manager.addStudent
 
 }

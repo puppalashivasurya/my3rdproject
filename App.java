@@ -1,49 +1,57 @@
 import java.util.ArrayList;
 import java.util.List;
 
-class Student {
-    String name;  // Should be private
-    int score;
+public class BuggyExample {
 
-    public Student(String name, int score) {
-        this.name = name;
-        this.score = score;
-    }
-}
-
-public class StudentManager {
-
-    private List<Student> students = new ArrayList<>();
-
-    public void addStudent(String name, int score) {
-        // Bug: allows negative scores
-        if (score < 0 || score > 100) {
-            System.out.println("Invalid score for " + name);
-            return;
-        }
-        students.add(new Student(name, score));
-    }
-
-    public double calculateAverage() {
-        // Bug: division by zero if list is empty
-        int total = 0;
-        for (Student s : students) {
-            total += score; // Bug: should be s.score
-        }
-        return total / students.size();  // Will crash if students.size() == 0
-    }
-
-    public void printStudents() {
-        // Bug: typo in loop variable
-        for (Student st : students) {
-            System.out.println(st.name + ": " + st.score);
-        }
-    }
+    // ❌ Bug: public mutable field
+    public static List<String> names = null;
 
     public static void main(String[] args) {
-        StudentManager manager = new StudentManager();
-        manager.addStudent("Alice", 85);
-        manager.addStudent("Bob", 92);
-        manager.addStudent
+
+        // ❌ Bug: NullPointerException (names is null)
+        names.add("Alice");
+
+        // ❌ Bug: possible division by zero
+        int result = divide(10, 0);
+        System.out.println(result);
+
+        // ❌ Bug: unused variable
+        int unusedVariable = 42;
+
+        // ❌ Bug: hardcoded password (security issue)
+        String password = "admin123";
+
+        // ❌ Bug: infinite loop
+        while (true) {
+            System.out.println("Running forever...");
+            break; // Sonar will flag confusing logic
+        }
+
+        // ❌ Bug: equals used incorrectly for String comparison
+        if (password == "admin123") {
+            System.out.println("Logged in");
+        }
+
+        // ❌ Bug: array index out of bounds
+        int[] numbers = new int[3];
+        numbers[5] = 100;
+
+        // ❌ Bug: NullPointer dereference
+        String text = null;
+        System.out.println(text.length());
+
+        // ❌ Bug: empty catch block
+        try {
+            Integer.parseInt("abc");
+        } catch (Exception e) {
+            // ignored
+        }
+    }
+
+    // ❌ Bug: division by zero not checked
+    public static int divide(int a, int b) {
+        return a / b;
+    }
+}
 
 }

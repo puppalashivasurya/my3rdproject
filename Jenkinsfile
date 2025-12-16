@@ -7,12 +7,13 @@ pipeline {
 
     stages {
 
-        stage('Checkout Code') {
-            steps {
-                git 'https://github.com/puppalashivasurya/my3rdproject.git'
-            }
-        }
-
+       stage('Checkout Code') {
+    steps {
+        git branch: 'main',
+            url: 'https://github.com/puppalashivasurya/my3rdproject.git'
+    }
+}
+        
         stage('Build & Unit Tests') {
             steps {
                 sh 'mvn clean test'

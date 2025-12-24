@@ -35,21 +35,17 @@
                 <version>3.11.0</version>
             </plugin>
 
-            <!-- Maven Surefire for tests -->
+            <!-- Maven Surefire for unit tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
             </plugin>
 
-            <!-- SonarQube Maven Plugin -->
+            <!-- JaCoCo plugin for code coverage -->
             <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.10.0.2594</version>
-            </plugin>
-
-        </plugins>
-    </build>
-
-</project>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.11</version>
+                <executions>
+                    <!-- Prep

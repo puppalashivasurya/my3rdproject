@@ -28,28 +28,32 @@
     <build>
         <plugins>
 
-            <!-- Maven Compiler -->
+            <!-- Maven Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
             </plugin>
 
-            <!-- Maven Surefire for unit tests -->
+            <!-- Maven Surefire Plugin for Unit Tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
             </plugin>
 
-            <!-- JaCoCo plugin for code coverage -->
+            <!-- JaCoCo Plugin for Code Coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.11</version>
                 <executions>
 
-                    <!-- Prepare agent -->
+                    <!-- Prepare JaCoCo agent -->
                     <execution>
                         <id>prepare-agent</id>
                         <goals>
@@ -57,7 +61,7 @@
                         </goals>
                     </execution>
 
-                    <!-- Generate report -->
+                    <!-- Generate JaCoCo report -->
                     <execution>
                         <id>report</id>
                         <phase>test</phase>
@@ -69,4 +73,8 @@
                 </executions>
             </plugin>
 
+        </plugins>
+    </build>
+
+</project>
         </plugin
